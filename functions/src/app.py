@@ -17,18 +17,18 @@ app = Flask(__name__)
 def health_check():
     return "Welcome to RPB API", 200
 
-CORS(app, resources={r"/*": {"origins": ["http://localhost:5173","https://week22-rpb.web.app"]}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:5173","https://week22-revou-milestone4.web.app"]}})
 app.config['SECRET_KEY'] = SECRET_KEY
 
 
 @app.after_request
 def add_secure_headers(response):
-    response.headers['Content-Security-Policy'] = "default-src 'self'; style-src 'self' https://cdnjs.cloudflare.com; script-src 'self' https://cdnjs.cloudflare.com; frame-ancestors 'self'"
+    response.headers['Content-Security-Policy'] = "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; frame-ancestors 'self'"
     response.headers['X-Frame-Options'] = 'SAMEORIGIN'
     response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
     response.headers['Referrer-Policy'] = 'strict-origin'
     response.headers['X-Content-Type-Options'] = 'nosniff'
-    response.headers['Permissions-Policy'] = "geolocation=(), microphone=(), camera=()"
+    response.headers['Permissions-Policy'] = "geolocation 'self'; microphone 'none'; camera 'none'"
     return response
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Revouprojectweek22@db.xhndjeumvhdjnqvwkuqj.supabase.co:5432/postgres'
